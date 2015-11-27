@@ -25,6 +25,7 @@ namespace :bento do
     puts "Copy required bento files into root"
 
     %w(scripts http floppy).each do |dep|
+      FileUtils.rm_rf(dep)
       FileUtils.cp_r("bento/#{dep}", dep)
     end
   end
