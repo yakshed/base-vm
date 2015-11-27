@@ -1,5 +1,4 @@
 require "json"
-require "fileutils"
 
 namespace :bento do
   desc "Clone bento repo"
@@ -25,8 +24,8 @@ namespace :bento do
     puts "Copy required bento files into root"
 
     %w(scripts http floppy).each do |dep|
-      FileUtils.rm_rf(dep)
-      FileUtils.cp_r("bento/#{dep}", dep)
+      rm_rf(dep)
+      cp_r("bento/#{dep}", dep)
     end
 
     # This should be replaced as soon as Bento fixes this problem
