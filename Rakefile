@@ -38,9 +38,10 @@ namespace :bento do
 end
 
 DEFAULT_BASE_OS = "ubuntu-15.10"
+DEFAULT_VIRT = "vmware"
 
 base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
-virt    = ENV.fetch("VIRT", "vmware")
+virt    = ENV.fetch("VIRT", DEFAULT_VIRT)
 
 packer_variables = {
   atlas_username: "{{env `ATLAS_USERNAME`}}",
