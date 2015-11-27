@@ -28,6 +28,13 @@ namespace :bento do
       FileUtils.rm_rf(dep)
       FileUtils.cp_r("bento/#{dep}", dep)
     end
+
+    # This should be replaced as soon as Bento fixes this problem
+    puts "[FIXME] Replacing --force-install with --default"
+    vmtools_script = File.read("scripts/common/vmtools.sh")
+    File.open("scripts/common/vmtools.sh", "w") do |file|
+      file.puts vmtools_script.gsub("--force-install", "--default")
+    end
   end
 end
 
@@ -51,7 +58,7 @@ packer_atlas = {
   artifact: "{{user `atlas_username`}}/{{user `atlas_name`}}",
   artifact_type: "base-vm.box",
   metadata: {
-    provider: "vmvware",
+    created: "{{timestamp}}",
     version: "{{user `build_version`}}"
   }
 }
