@@ -43,7 +43,7 @@ packer_variables = {
 }
 packer_push = {
   name: "{{user `atlas_username`}}/{{user `atlas_name`}}",
-  vcs: true,
+  vcs: true
 }
 packer_atlas = {
   type: "atlas",
@@ -61,7 +61,7 @@ namespace :base do
     bento_json = JSON.parse(File.read("bento/#{base_os}-amd64.json"))
 
     bento_json["builders"]        = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
-    bento_json["variables"]       = packer_variables
+    bento_json["variables"]       = bento_json["variables"].merge(packer_variables)
     bento_json["push"]            = packer_push
     bento_json["post-processors"] = [[packer_atlas]]
 
