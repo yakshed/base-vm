@@ -38,12 +38,21 @@ virt    = ENV.fetch("VIRT", "vmware")
 packer_variables = {
   atlas_username: "{{env `ATLAS_USERNAME`}}",
   atlas_name: "{{env `ATLAS_NAME`}}",
+  atlas_token: "{{env `ATLAS_TOKEN`}}",
   build_version: "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
 }
 packer_push = {
   name: "{{user `atlas_username`}}/{{user `atlas_name`}}",
   vcs: true,
-  base_dir: "packer"
+}
+packer_atlas = {
+  type: "atlas",
+  artifact: "{{user `atlas_username`}}/{{user `atlas_name`}}",
+  artifact_type: "base-vm.box",
+  metadata: {
+    provider: "vmvware",
+    version: "{{user `build_version`}}"
+  }
 }
 
 namespace :base do
@@ -51,11 +60,10 @@ namespace :base do
   task :assemble => "bento:prepare" do
     bento_json = JSON.parse(File.read("bento/#{base_os}-amd64.json"))
 
-    bento_json.delete("post-processors")
-
-    bento_json["builders"]  = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
-    bento_json["variables"] = packer_variables
-    bento_json["push"]      = packer_push
+    bento_json["builders"]        = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
+    bento_json["variables"]       = packer_variables
+    bento_json["push"]            = packer_push
+    bento_json["post-processors"] = [[packer_atlas]]
 
     File.open("base.json", "w+") { |f| f.puts JSON.pretty_generate(bento_json) }
   end
