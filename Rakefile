@@ -73,7 +73,7 @@ namespace :base do
     bento_json["push"]            = packer_push
     bento_json["post-processors"] = [packer_atlas]
 
-    File.open("base.json", "w+") { |f| f.puts JSON.pretty_generate(bento_json) }
+    File.write("base.json", JSON.pretty_generate(bento_json))
   end
 
   desc "Build base box"
