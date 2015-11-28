@@ -1,6 +1,15 @@
 require "json"
 require "yaml"
 
+DEFAULT_BASE_OS = "ubuntu-15.10"
+DEFAULT_VIRT = "vmware"
+
+base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
+virt = ENV.fetch("VIRT", DEFAULT_VIRT)
+packer_variables = YAML.load_file('data/packer_variables.yaml')
+packer_push = YAML.load_file('data/packer_push.yaml')
+packer_atlas = YAML.load_file('data/packer_atlas.yaml')
+
 namespace :bento do
   desc "Clone bento repo"
   task :clone do
@@ -37,16 +46,6 @@ namespace :bento do
     end
   end
 end
-
-DEFAULT_BASE_OS = "ubuntu-15.10"
-DEFAULT_VIRT = "vmware"
-
-base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
-virt    = ENV.fetch("VIRT", DEFAULT_VIRT)
-
-packer_variables = YAML.load_file('data/packer_variables.yaml')
-packer_push = YAML.load_file('data/packer_push.yaml')
-packer_atlas = YAML.load_file('data/packer_atlas.yaml')
 
 namespace :base do
   desc "Assemble base box JSON"
