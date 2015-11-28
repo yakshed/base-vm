@@ -11,7 +11,7 @@ packer_variables       = YAML.load_file("data/packer_variables.yaml")
 packer_push            = YAML.load_file("data/packer_push.yaml")
 packer_atlas           = YAML.load_file("data/packer_atlas.yaml")
 packer_post_processors = [packer_atlas]
-packer_provisioners    = YAML.load_file("data/packer_provisioners.yaml")
+ansible_provisioners    = YAML.load_file("data/packer_provisioners.yaml")
 
 namespace :bento do
   desc "Clone bento repo"
@@ -37,8 +37,7 @@ namespace :bento do
     puts "Copy required bento files into root"
 
     %w(scripts http floppy).each do |dep|
-      rm_rf(dep)
-      cp_r("bento/#{dep}", dep)
+      cp_r("bento/#{dep}", ".")
     end
 
     # This should be replaced as soon as Bento fixes this problem
@@ -59,7 +58,20 @@ namespace :base do
     bento_json["variables"]       = bento_json["variables"].merge(packer_variables)
     bento_json["push"]            = packer_push
     bento_json["post-processors"] = packer_post_processors
-    bento_json["provisioners"]    = packer_provisioners
+
+    file_provisioner = bento_json["provisioners"].find { |provisioner| provisioner["type"] == "file" }
+    post_provisioner = bento_json["provisioners"].find { |provisioner| provisioner["type"] == "shell" }.dup
+    pre_provisioner  = bento_json["provisioners"].find { |provisioner| provisioner["type"] == "shell" }.dup
+
+    pre_provisioner["scripts"]  = pre_provisioner["scripts"].select { |script| script !~ /(cleanup|minimize)/ }
+    post_provisioner["scripts"] = post_provisioner["scripts"].select { |script| script =~ /(cleanup|minimize)/ }
+
+    bento_json["provisioners"] = [
+      file_provisioner,
+      pre_provisioner,
+      ansible_provisioners,
+      post_provisioner
+    ].flatten
 
     File.write("base.json", JSON.pretty_generate(bento_json))
   end
