@@ -55,8 +55,8 @@
     [
       {
         "type": "atlas",
-        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-        "artifact_type": "base-vm.box",
+        "artifact": "{{user `atlas_build_slug`}}",
+        "artifact_type": "vmware.image",
         "metadata": {
           "created": "{{timestamp}}",
           "version": "{{user `build_version`}}"
@@ -110,13 +110,12 @@
     "preseed_path": "ubuntu-15.10/preseed.cfg",
     "template": "ubuntu-15.10-amd64",
     "version": "2.1.TIMESTAMP",
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "{{env `ATLAS_NAME`}}",
+    "atlas_build_slug": "{{env `ATLAS_BUILD_SLUG`}}",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "build_version": "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
   },
   "push": {
-    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+    "name": "{{user `atlas_build_slug`}}",
     "vcs": true
   }
 }
