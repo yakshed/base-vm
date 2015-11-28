@@ -1,0 +1,32 @@
+---
+
+- name: update apt cache
+  sudo: true
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install rubies
+  sudo: true
+  with_items: ruby_install_ruby_versions
+  shell: >
+    creates=/opt/rubies/ruby-{{ item }}/bin/ruby
+    ruby-install ruby {{ item }}
+
+- name: Install bundler for rubies
+  sudo: true
+  with_items: ruby_install_ruby_versions
+  shell: >
+    creates=/opt/rubies/ruby-{{ item }}/bin/bundle
+    executable=/bin/bash source /etc/profile;
+    chruby {{ item }} && gem install bundler
+
+- name: Copy .gemrc
+  sudo: yes
+  sudo_user: "{{ item }}"
+  template: src=gemrc dest=~/.gemrc
+  with_items: ruby_users
+
+- name: Copy .ruby-version
+  sudo: yes
+  sudo_user: "{{ item }}"
+  template: src=ruby-version dest=~/.ruby-version
+  with_items: ruby_users

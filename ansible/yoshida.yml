@@ -1,0 +1,22 @@
+---
+- hosts: all
+  sudo: yes
+
+  vars:
+    users:
+      - { name: "dbreuer", full_name: "Dirk Breuer", github: "railsbros-dirk" }
+
+    ruby_install_ruby_versions:
+      - 2.2.3
+
+    ruby_default_version: 2.2.3
+
+    ruby_users:
+      - root
+      - ubuntu
+      - dbreuer
+
+  roles:
+    - role: innohub-ansible.ruby
+    - role: users
+    - role: yoshida

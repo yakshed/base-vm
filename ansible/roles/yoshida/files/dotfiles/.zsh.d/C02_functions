@@ -1,0 +1,15 @@
+function rc() {
+  if test -f "./script/console"; then
+    ./script/console
+  else
+    bundle exec rails console
+  fi
+}
+
+# jump to project in dir ~projects_dir
+function p() {
+  cd ~projects_dir/$1
+  clear
+}
+
+# vim: set ft=zsh:

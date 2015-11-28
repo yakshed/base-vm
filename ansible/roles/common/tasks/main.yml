@@ -1,0 +1,70 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Run dist-upgrade
+  apt: upgrade=dist
+
+# Install build requirements
+- name: Install dev dependencies (i.e. build essentials, libXML)
+  apt: name={{ item }}
+  with_items:
+    - libxml2-dev
+    - libxml2-utils
+    - libxslt1-dev
+    - autoconf
+    - binutils-doc
+    - bison
+    - build-essential
+    - gcc
+    - g++
+    - ncurses-dev
+
+- name: Install cURL dependencies
+  apt: name={{ item }}
+  with_items:
+    - curl
+    - libcurl4-openssl-dev
+    - ca-certificates
+    - openssl
+
+- name: Install apt extras
+  apt: name=apt-transport-https
+
+- name: Install git
+  apt: name=git
+
+- name: Install basic tooling
+  apt: name={{ item }}
+  with_items:
+    - tig
+    - htop
+    - jq
+    - wget
+    - curl
+    - tmux
+    - rsync
+    - zip
+    - python-virtualenv
+    - python-pip
+
+- name: Install AWS CLI tools
+  pip: name=awscli
+
+- name: Install debug tooling
+  apt: name={{ item }}
+  with_items:
+    - dnsutils
+    - dstat
+    - iperf
+    - ioping
+
+- name: Install ntp
+  apt: name=ntp
+
+- name: Set tinker panic 0 for NTP
+  lineinfile: dest=/etc/ntp.conf state=present line="tinker panic 0"
+
+- name: Install the avahi deamon
+  apt: name=avahi-daemon

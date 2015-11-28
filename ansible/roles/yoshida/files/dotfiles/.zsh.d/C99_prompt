@@ -1,0 +1,5 @@
+cat ~/logo
+
+autoload -U promptinit
+promptinit
+prompt fejo

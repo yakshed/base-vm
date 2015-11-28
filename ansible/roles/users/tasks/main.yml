@@ -1,0 +1,14 @@
+- name: Create the users
+  user: name='{{ item.name }}' shell=/bin/zsh comment='{{ item.full_name }}' groups='sudo,adm' append=yes
+  with_items: users
+
+- name: Add SSH keys to users
+  authorized_key: user='{{ item.name }}' key='https://github.com/{{ item.github }}.keys'
+  with_items: users
+
+- name: Install zsh
+  apt: name=zsh
+
+- name: Make zsh the default shell for the main user
+  user: name={{ item.name }} shell=/bin/zsh
+  with_items: users

@@ -1,0 +1,14 @@
+- hosts: all
+  vars_files:
+    - galaxy/innohub-ansible.ruby-install/defaults/main.yml
+    - galaxy/innohub-ansible.chruby/defaults/main.yml
+  vars:
+    ruby_default_version: 2.2.1
+    ruby_install_ruby_versions:
+      - 2.2.1
+    ruby_users:
+      - root
+  tasks:
+    - include: galaxy/innohub-ansible.ruby-install/tasks/main.yml
+    - include: galaxy/innohub-ansible.chruby/tasks/main.yml
+    - include: tasks/main.yml

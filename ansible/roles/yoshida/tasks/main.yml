@@ -1,0 +1,8 @@
+---
+
+- name: Copy dotfiles
+  copy: src=roles/yoshida/files/dotfiles dest='/home/{{ item.name }}/' group={{ item.name }} owner={{ item.name }} mode=0644
+  with_items: '{{ users }}'
+
+- name: Install AWS CLI tools
+  pip: name=awscli
