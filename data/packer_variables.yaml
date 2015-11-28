@@ -2,3 +2,4 @@
 atlas_build_slug: "{{env `ATLAS_BUILD_SLUG`}}"
 atlas_token: "{{env `ATLAS_TOKEN`}}"
 build_version: "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
+playbook: "{{env `DEVELOPER_PLAYBOOK`}}"
