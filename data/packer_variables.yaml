@@ -1,0 +1,5 @@
+---
+atlas_username: "{{env `ATLAS_USERNAME`}}"
+atlas_name: "{{env `ATLAS_NAME`}}"
+atlas_token: "{{env `ATLAS_TOKEN`}}"
+build_version: "0.1.{{env `ATLAS_BUILD_NUMBER`}}"

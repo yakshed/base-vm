@@ -1,5 +1,14 @@
 require "json"
-require "fileutils"
+require "yaml"
+
+DEFAULT_BASE_OS = "ubuntu-15.10"
+DEFAULT_VIRT = "vmware"
+
+base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
+virt = ENV.fetch("VIRT", DEFAULT_VIRT)
+packer_variables = YAML.load_file('data/packer_variables.yaml')
+packer_push = YAML.load_file('data/packer_push.yaml')
+packer_atlas = YAML.load_file('data/packer_atlas.yaml')
 
 namespace :bento do
   desc "Clone bento repo"
@@ -25,8 +34,8 @@ namespace :bento do
     puts "Copy required bento files into root"
 
     %w(scripts http floppy).each do |dep|
-      FileUtils.rm_rf(dep)
-      FileUtils.cp_r("bento/#{dep}", dep)
+      rm_rf(dep)
+      cp_r("bento/#{dep}", dep)
     end
 
     # This should be replaced as soon as Bento fixes this problem
@@ -38,31 +47,6 @@ namespace :bento do
   end
 end
 
-DEFAULT_BASE_OS = "ubuntu-15.10"
-
-base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
-virt    = ENV.fetch("VIRT", "vmware")
-
-packer_variables = {
-  atlas_username: "{{env `ATLAS_USERNAME`}}",
-  atlas_name: "{{env `ATLAS_NAME`}}",
-  atlas_token: "{{env `ATLAS_TOKEN`}}",
-  build_version: "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
-}
-packer_push = {
-  name: "{{user `atlas_username`}}/{{user `atlas_name`}}",
-  vcs: true
-}
-packer_atlas = {
-  type: "atlas",
-  artifact: "{{user `atlas_username`}}/{{user `atlas_name`}}",
-  artifact_type: "base-vm.box",
-  metadata: {
-    created: "{{timestamp}}",
-    version: "{{user `build_version`}}"
-  }
-}
-
 namespace :base do
   desc "Assemble base box JSON"
   task :assemble => "bento:prepare" do
@@ -71,9 +55,9 @@ namespace :base do
     bento_json["builders"]        = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
     bento_json["variables"]       = bento_json["variables"].merge(packer_variables)
     bento_json["push"]            = packer_push
-    bento_json["post-processors"] = [[packer_atlas]]
+    bento_json["post-processors"] = [packer_atlas]
 
-    File.open("base.json", "w+") { |f| f.puts JSON.pretty_generate(bento_json) }
+    File.write("base.json", JSON.pretty_generate(bento_json))
   end
 
   desc "Build base box"
