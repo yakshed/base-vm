@@ -53,7 +53,7 @@ packer_push = {
   name: "{{user `atlas_username`}}/{{user `atlas_name`}}",
   vcs: true
 }
-packer_atlas = {
+packer_atlas = [{
   type: "atlas",
   artifact: "{{user `atlas_username`}}/{{user `atlas_name`}}",
   artifact_type: "base-vm.box",
@@ -61,7 +61,7 @@ packer_atlas = {
     created: "{{timestamp}}",
     version: "{{user `build_version`}}"
   }
-}
+}]
 
 namespace :base do
   desc "Assemble base box JSON"
@@ -71,7 +71,7 @@ namespace :base do
     bento_json["builders"]        = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
     bento_json["variables"]       = bento_json["variables"].merge(packer_variables)
     bento_json["push"]            = packer_push
-    bento_json["post-processors"] = [[packer_atlas]]
+    bento_json["post-processors"] = [packer_atlas]
 
     File.open("base.json", "w+") { |f| f.puts JSON.pretty_generate(bento_json) }
   end
