@@ -81,7 +81,7 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "ansible/{{env `DEVELOPER_PLAYBOOK`}}.yml",
+      "playbook_file": "ansible/{{user `playbook`}}.yml",
       "inventory_file": "ansible/inventory",
       "playbook_dir": "ansible",
       "override": {
@@ -114,7 +114,8 @@
     "version": "2.1.TIMESTAMP",
     "atlas_build_slug": "{{env `ATLAS_BUILD_SLUG`}}",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "build_version": "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
+    "build_version": "0.1.{{env `ATLAS_BUILD_NUMBER`}}",
+    "playbook": "{{env `DEVELOPER_PLAYBOOK`}}"
   },
   "push": {
     "name": "{{user `atlas_build_slug`}}",
