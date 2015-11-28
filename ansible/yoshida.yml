@@ -13,7 +13,7 @@
 
     ruby_users:
       - root
-      - ubuntu
+      - vagrant
       - dbreuer
 
   roles:
