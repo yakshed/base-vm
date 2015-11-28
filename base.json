@@ -54,11 +54,16 @@
   "post-processors": [
     [
       {
+        "type": "vagrant",
+        "keep_input_artifact": false
+      },
+      {
         "type": "atlas",
         "artifact": "{{user `atlas_build_slug`}}",
-        "artifact_type": "vmware.image",
+        "artifact_type": "vagrant.box",
         "metadata": {
           "created": "{{timestamp}}",
+          "provider": "vmware_desktop",
           "version": "{{user `build_version`}}"
         }
       }
