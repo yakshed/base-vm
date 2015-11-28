@@ -63,8 +63,9 @@ namespace :base do
     post_provisioner = bento_json["provisioners"].find { |provisioner| provisioner["type"] == "shell" }.dup
     pre_provisioner  = bento_json["provisioners"].find { |provisioner| provisioner["type"] == "shell" }.dup
 
-    pre_provisioner["scripts"]  = pre_provisioner["scripts"].select { |script| script !~ /(cleanup|minimize)/ }
-    post_provisioner["scripts"] = post_provisioner["scripts"].select { |script| script =~ /(cleanup|minimize)/ }
+    pre_provisioner["scripts"]  = pre_provisioner["scripts"].select { |script| script !~ /(cleanup|minimize|vmtools)/ }
+    pre_provisioner["scripts"] << "scripts/ansible.sh"
+    post_provisioner["scripts"] = post_provisioner["scripts"].select { |script| script =~ /(cleanup|minimize|vmtools)/ }
 
     bento_json["provisioners"] = [
       file_provisioner,
