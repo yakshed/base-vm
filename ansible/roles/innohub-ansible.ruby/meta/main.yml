@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Andrew Angelo Ang
+  description: "Uses ruby-install and chruby to setup ruby."
+  company: InnoHub, Inc.
+  license: MIT
+  min_ansible_version: 1.4
+  platform:
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
+  categories:
+    - development
+    - system
+
+dependencies:
+  - { role: innohub-ansible.ruby-install }
+  - { role: innohub-ansible.chruby }

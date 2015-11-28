@@ -1,0 +1,30 @@
+alias ls="ls --color=auto"
+
+alias cl="clear"
+alias d="dirs -v"
+alias ll='ls -lsahF'
+alias l.='ls -d .[^.]*'
+alias lsd='ls -ld *(-/DN)'
+alias md='mkdir -p'
+alias rd='rmdir'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias grep='grep --color=auto'
+alias tree='tree -psC -L'
+
+alias -s txt='less -rE'
+alias -s log='tail -fn 200'
+
+alias gemi="gem install --no-ri --no-rdoc"
+
+# Git aliases
+
+alias g='git'
+alias gs='git st'
+
+alias bi="bundle install"
+alias be="bundle exec"
+
+alias irb=pry
+
+# vim: set ft=zsh:

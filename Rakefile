@@ -5,10 +5,13 @@ DEFAULT_BASE_OS = "ubuntu-15.10"
 DEFAULT_VIRT = "vmware"
 
 base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
-virt = ENV.fetch("VIRT", DEFAULT_VIRT)
-packer_variables = YAML.load_file('data/packer_variables.yaml')
-packer_push = YAML.load_file('data/packer_push.yaml')
-packer_atlas = YAML.load_file('data/packer_atlas.yaml')
+virt    = ENV.fetch("VIRT", DEFAULT_VIRT)
+
+packer_variables       = YAML.load_file("data/packer_variables.yaml")
+packer_push            = YAML.load_file("data/packer_push.yaml")
+packer_atlas           = YAML.load_file("data/packer_atlas.yaml")
+packer_post_processors = [packer_atlas]
+packer_provisioners    = YAML.load_file("data/packer_provisioners.yaml")
 
 namespace :bento do
   desc "Clone bento repo"
@@ -55,7 +58,8 @@ namespace :base do
     bento_json["builders"]        = bento_json["builders"].select { |builder| builder["type"] == "#{virt}-iso" }
     bento_json["variables"]       = bento_json["variables"].merge(packer_variables)
     bento_json["push"]            = packer_push
-    bento_json["post-processors"] = [packer_atlas]
+    bento_json["post-processors"] = packer_post_processors
+    bento_json["provisioners"]    = packer_provisioners
 
     File.write("base.json", JSON.pretty_generate(bento_json))
   end
