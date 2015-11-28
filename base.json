@@ -85,7 +85,7 @@
         "scripts/ubuntu/networking.sh",
         "scripts/ubuntu/sudoers.sh",
         "scripts/ubuntu/vagrant.sh",
-        "scripts/common/vmtools.sh"
+        "scripts/ansible.sh"
       ],
       "type": "shell"
     },
@@ -126,6 +126,7 @@
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
+        "scripts/common/vmtools.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
