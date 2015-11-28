@@ -1,4 +1,5 @@
 require "json"
+require "yaml"
 
 namespace :bento do
   desc "Clone bento repo"
@@ -43,25 +44,9 @@ DEFAULT_VIRT = "vmware"
 base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)
 virt    = ENV.fetch("VIRT", DEFAULT_VIRT)
 
-packer_variables = {
-  atlas_username: "{{env `ATLAS_USERNAME`}}",
-  atlas_name: "{{env `ATLAS_NAME`}}",
-  atlas_token: "{{env `ATLAS_TOKEN`}}",
-  build_version: "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
-}
-packer_push = {
-  name: "{{user `atlas_username`}}/{{user `atlas_name`}}",
-  vcs: true
-}
-packer_atlas = [{
-  type: "atlas",
-  artifact: "{{user `atlas_username`}}/{{user `atlas_name`}}",
-  artifact_type: "base-vm.box",
-  metadata: {
-    created: "{{timestamp}}",
-    version: "{{user `build_version`}}"
-  }
-}]
+packer_variables = YAML.load_file('data/packer_variables.yaml')
+packer_push = YAML.load_file('data/packer_push.yaml')
+packer_atlas = YAML.load_file('data/packer_atlas.yaml')
 
 namespace :base do
   desc "Assemble base box JSON"
