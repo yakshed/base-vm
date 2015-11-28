@@ -1,0 +1,45 @@
+{
+  "builders": [
+    {
+      "type": "vmware-vmx",
+      "boot_wait": "10s",
+      "headless": true,
+      "source_path": "yakshed/base-vm.vmx",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": false
+      },
+      {
+        "type": "atlas",
+        "artifact": "{{user `atlas_build_slug`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "vmware_desktop",
+          "created": "{{timestamp}}",
+          "version": "{{user `build_version`}}.0.0"
+        }
+      }
+    ]
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["echo 'meh' > /home/vagrant/meh"],
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'"
+    }
+  ],
+  "variables": {
+    "atlas_build_slug": "{{env `ATLAS_BUILD_SLUG`}}",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "build_version": "0.1.{{env `ATLAS_BUILD_NUMBER`}}"
+  }
+}
