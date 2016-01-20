@@ -1,7 +1,7 @@
 require "json"
 require "yaml"
 
-DEFAULT_BASE_OS = "ubuntu-15.10"
+DEFAULT_BASE_OS = "ubuntu-15.04"
 DEFAULT_VIRT = "vmware"
 
 base_os = ENV.fetch("BASE_OS", DEFAULT_BASE_OS)

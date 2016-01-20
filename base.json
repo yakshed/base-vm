@@ -2,10 +2,9 @@
   "builders": [
     {
       "boot_command": [
-        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
         "/install/vmlinuz<wait>",
         " auto<wait>",
         " console-setup/ask_detect=false<wait>",
@@ -96,20 +95,6 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "ansible/common.yml",
-      "inventory_file": "ansible/inventory",
-      "playbook_dir": "ansible",
-      "override": {
-        "vmware-iso": {
-          "command": "sudo ansible-playbook",
-          "extra_arguments": [
-            "-e main_user=vagrant"
-          ]
-        }
-      }
-    },
-    {
-      "type": "ansible-local",
       "playbook_file": "ansible/{{user `playbook`}}.yml",
       "inventory_file": "ansible/inventory",
       "playbook_dir": "ansible",
@@ -139,22 +124,22 @@
     }
   ],
   "variables": {
-    "box_basename": "ubuntu-15.10",
+    "box_basename": "ubuntu-15.04",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131",
+    "iso_checksum": "6501c8545374665823384bbb6235f865108f56d8a30bbf69dd18df73c14ccb84",
     "iso_checksum_type": "sha256",
-    "iso_name": "ubuntu-15.10-server-amd64.iso",
+    "iso_name": "ubuntu-15.04-server-amd64.iso",
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
-    "mirror_directory": "15.10",
-    "name": "ubuntu-15.10",
+    "mirror_directory": "15.04",
+    "name": "ubuntu-15.04",
     "no_proxy": "{{env `no_proxy`}}",
-    "preseed_path": "ubuntu-15.10/preseed.cfg",
-    "template": "ubuntu-15.10-amd64",
+    "preseed_path": "ubuntu-15.04/preseed.cfg",
+    "template": "ubuntu-15.04-amd64",
     "version": "2.1.TIMESTAMP",
     "atlas_build_slug": "{{env `ATLAS_BUILD_SLUG`}}",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
