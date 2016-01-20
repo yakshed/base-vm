@@ -17,6 +17,7 @@
       - dbreuer
 
   roles:
+    - role: common
     - role: users
     - role: innohub-ansible.ruby
     - role: yoshida
