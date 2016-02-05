@@ -1,14 +1,5 @@
 ---
 - type: ansible-local
-  playbook_file: "ansible/common.yml"
-  inventory_file: "ansible/inventory"
-  playbook_dir: "ansible"
-  override:
-    vmware-iso:
-      command: "sudo ansible-playbook"
-      extra_arguments:
-        - "-e main_user=vagrant"
-- type: ansible-local
   playbook_file: "ansible/{{user `playbook`}}.yml"
   inventory_file: "ansible/inventory"
   playbook_dir: "ansible"
