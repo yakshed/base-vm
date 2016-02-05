@@ -34,13 +34,13 @@
       - zsh
     vim_packages:
       editorconfig-vim: editorconfig/editorconfig-vim
+      neoterm: kassio/neoterm
       vim-ruby: vim-ruby/vim-ruby
       vim-pathogen: tpope/vim-pathogen
       vim-colors-solarized: altercation/vim-colors-solarized
       vim-polyglot: sheerun/vim-polyglot
       vim-fugitive: tpope/vim-fugitive
       vim-commentary: tpope/vim-commentary
-      vim-dispatch: tpope/vim-dispatch
       vim-surround: tpope/vim-surround
       vim-repeat: tpope/vim-repeat
       vim-textobj-user: kana/vim-textobj-user
@@ -48,7 +48,6 @@
       rainbow: luochen1990/rainbow
       syntastic: scrooloose/syntastic
       ctrlp.vim: ctrlpvim/ctrlp.vim
-      vim-rspec: thoughtbot/vim-rspec
     npm_packages:
       - alex
       - npm
