@@ -18,15 +18,9 @@ virtualbox-iso|virtualbox-ovf)
     ;;
 
 vmware-iso|vmware-vmx)
-    mkdir -p /tmp/vmfusion;
-    mkdir -p /tmp/vmfusion-archive;
-    mount -o loop $HOME_DIR/linux.iso /tmp/vmfusion;
-    tar xzf /tmp/vmfusion/VMwareTools-*.tar.gz -C /tmp/vmfusion-archive;
-    /tmp/vmfusion-archive/vmware-tools-distrib/vmware-install.pl --default;
-    umount /tmp/vmfusion;
-    rm -rf  /tmp/vmfusion;
-    rm -rf  /tmp/vmfusion-archive;
-    rm -f $HOME_DIR/*.iso;
+    apt-get install open-vm-tools;
+    apt-get install open-vm-tools-dkms;
+    dpkg-reconfigure open-vm-tools-dkms;
     ;;
 
 parallels-iso|parallels-pvm)
