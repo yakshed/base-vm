@@ -1,5 +1,11 @@
+require "rubygems"
+require "bundler/setup"
+
+require "dotenv"
 require "json"
 require "yaml"
+
+Dotenv.load
 
 DEFAULT_BASE_OS = "ubuntu-15.04"
 DEFAULT_VIRT = "vmware"
